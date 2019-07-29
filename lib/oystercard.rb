@@ -3,7 +3,8 @@ class Oystercard
     attr_reader :balance
 
     BALANCE_LIMIT = 90
-
+    BALANCE_MINIMUM = 1
+    
     def initialize(balance=0)
         @balance = balance
         @in_journey = false
@@ -20,7 +21,7 @@ class Oystercard
 
     def touch_in
         raise "Already in journey" if in_journey?
-        raise "Balance needs to be 1 or more" if @balance < 1
+        raise "Balance needs to be 1 or more" if @balance < BALANCE_MINIMUM
         @in_journey = true
     end
 
