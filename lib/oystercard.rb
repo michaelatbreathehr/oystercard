@@ -30,6 +30,7 @@ class Oystercard
         @in_journey = false
     end
 
+    # not needed now as replaced with touch in and touch out.
     # def touch
     #     @in_journey = !@in_journey
     #     # use the above instead of having the if/else statement below
@@ -44,4 +45,6 @@ class Oystercard
         @in_journey
     end
 
+
+    
 end

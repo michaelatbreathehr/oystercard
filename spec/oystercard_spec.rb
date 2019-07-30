@@ -1,6 +1,8 @@
 require 'oystercard'
 
 BALANCE_LIMIT = 90
+BALANCE_MINIMUM = 1
+MINUMUM_CHARGE = 1
 
 describe Oystercard do
 
@@ -44,13 +46,19 @@ describe Oystercard do
             subject.touch_out
             expect(subject.in_journey?).to eq(false)
         end
+
+        it "deducts minimum fare from card when touch out" do
+            subject.topup(10)
+            subject.in_journey?
+            subject.deduct(1)
+            expect(subject.balance).to eq (9)
+        end
     end
 
+    it "allows customer to touch out if in journey" do
+        expect(subject.in_journey?).to eq false
 
-    # it "allows customer to touch out if in journey" do
-    #     expect(subject.in_journey?).to eq false
-
-    # end
+    end
 
 
 
