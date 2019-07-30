@@ -28,37 +28,38 @@ describe Oystercard do
 
     describe "#touch_in" do
         it "raise error if if balance is below 1 when trying to touch in" do
-            expect{subject.touch_in}.to raise_error "Balance needs to be 1 or more"
+            expect{subject.touch_in(station)}.to raise_error "Balance needs to be 1 or more"
         end
 
 
         it "Change in_journey from false to true" do
             subject.topup(10)
-            subject.touch_in
+            subject.touch_in(station)
             expect(subject.in_journey?).to eq(true)
         end
+    end
+
+    let(:station){double :station}
+    it 'stores the entry station' do
+        subject.topup(10)
+        subject.touch_in(station)
+        expect(subject.entry_station).to eq station
     end
 
     describe "#touch_out" do
         it "Change in_journey from true to false" do
             subject.topup(10)
-            subject.touch_in
-            subject.touch_out
-            expect(subject.in_journey?).to eq(false)
+            subject.touch_in(station)
+            expect{ subject.touch_out(station) }.to change{ subject.balance }.by(-Oystercard::MINIMUM_CHARGE)
         end
 
-        it "deducts minimum fare from card when touch out" do
-            subject.topup(10)
-            subject.in_journey?
-            subject.deduct(1)
-            expect(subject.balance).to eq (9)
-        end
     end
 
     it "allows customer to touch out if in journey" do
         expect(subject.in_journey?).to eq false
 
     end
+
 
 
 

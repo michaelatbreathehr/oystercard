@@ -1,13 +1,19 @@
 class Oystercard
 
     attr_reader :balance
+    attr_reader :entry_station
+    # attr_accessor :journey_history
+
 
     BALANCE_LIMIT = 90
     BALANCE_MINIMUM = 1
+    MINIMUM_CHARGE = 1
     
     def initialize(balance=0)
         @balance = balance
         @in_journey = false
+        # @journey_history = []
+        @entry_station = nil
     end
 
     def topup(value)
@@ -15,36 +21,32 @@ class Oystercard
         @balance += value
     end
 
-    def deduct(value)
-        @balance -= value
-    end
-
-    def touch_in
+    def touch_in(station)
         raise "Already in journey" if in_journey?
         raise "Balance needs to be 1 or more" if @balance < BALANCE_MINIMUM
         @in_journey = true
+        @entry_station = station
     end
 
-    def touch_out
+    def touch_out(station)
         raise "Already out of journey" if !in_journey?
         @in_journey = false
+        deduct(MINIMUM_CHARGE)
+        @entry_station = nil
     end
-
-    # not needed now as replaced with touch in and touch out.
-    # def touch
-    #     @in_journey = !@in_journey
-    #     # use the above instead of having the if/else statement below
-    #     # if @in_journey == true
-    #     #     @in_journey = false
-    #     # else 
-    #     #     @in_journey = true
-    #     # end
-    # end
 
     def in_journey?
         @in_journey
+        !!entry_station
     end
 
+    def journey_history
+    end
+      
+
+    def deduct(value)
+        @balance -= value
+    end
 
     
 end
