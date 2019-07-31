@@ -22,8 +22,9 @@ describe Oystercard do
 
     it "Has a new balance after deductions applied to card" do
         subject.topup(10)
-        subject.deduct(5)
-        expect(subject.balance).to eq(5) 
+        subject.touch_in(station)
+        subject.touch_out(station)
+        expect(subject.balance).to eq(9) 
     end
 
     describe "#touch_in" do
