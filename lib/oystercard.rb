@@ -3,11 +3,9 @@ class Oystercard
     attr_reader :balance
     attr_accessor :journey_history, :current_journey
 
-
     BALANCE_LIMIT = 90
     BALANCE_MINIMUM = 1
     MINIMUM_CHARGE = 1
-
     
     def initialize(balance=0)
         @balance = balance
