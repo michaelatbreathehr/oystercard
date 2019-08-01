@@ -1,6 +1,6 @@
 class Oystercard
 
-    attr_reader :balance
+    attr_reader :balance, :journey
     attr_accessor :journey_history, :current_journey
 
     BALANCE_LIMIT = 90
@@ -8,13 +8,9 @@ class Oystercard
     MINIMUM_CHARGE = 1
     
     def initialize(balance=0)
+        @journey = Journey.new
         @balance = balance
         @in_journey = false
-        @journey_history = []
-        @current_journey = {
-            :entry_station => nil,
-            :exit_station => nil
-        }
     end
 
     def topup(value)
@@ -38,7 +34,7 @@ class Oystercard
     end
 
     def in_journey?
-        !@current_journey[:entry_station].nil?
+        !@journey.current_journey[:entry_station].nil?
     end
       
     private
@@ -47,19 +43,19 @@ class Oystercard
     end
 
     def complete_journey
-        @journey_history << @current_journey
-        @current_journey = {
+        @journey.journey_history << @journey.current_journey
+        @journey.current_journey = {
             :entry_station => nil,
             :exit_station => nil
         }
     end
     
     def entry_station(station)
-        @current_journey[:entry_station] = station
+        @journey.current_journey[:entry_station] = station
     end
 
     def exit_station(station)
-        @current_journey[:exit_station] = station
+        @journey.current_journey[:exit_station] = station
     end
 
 end

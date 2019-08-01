@@ -9,14 +9,14 @@ describe Oystercard do
     let(:exit_station) {:station}
 
     it "has an empty journey history" do 
-        expect(subject.journey_history).to be_empty
+        expect(subject.journey.journey_history).to be_empty
     end
 
     it "has a history" do
         subject.topup(10)
         subject.touch_in("station1")
         subject.touch_out("station2")
-        expect(subject.journey_history).not_to be_empty
+        expect(subject.journey.journey_history).not_to be_empty
     end
 
     it "card has a balance of 0" do
@@ -57,7 +57,7 @@ describe Oystercard do
         it 'stores the entry station' do
             subject.topup(10)
             subject.touch_in(entry_station)
-            expect(subject.current_journey[:entry_station]).to eq entry_station
+            expect(subject.journey.current_journey[:entry_station]).to eq entry_station
         end
 
     describe "#touch_out" do
